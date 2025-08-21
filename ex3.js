@@ -1,27 +1,23 @@
-//Exercise 3:
-// Section A: shifting letter cyclically.
+"use strict";
 
-function shiftLetters(str){
-    const alphabets = ["abcdefghijlkmnopqrstuvwxyz",
-                       "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-                       "0123456789"];
-    return function(str){
-        let reference;
-        let solution = "";
-        for(let i = 0; i<str.length; i++){
-            for(let alphabet of alphabets){
-                if(alphabet.includes(str[i])){
-                    reference = alphabet;
-                    break;
-                }
-            }
-            let position = reference.indexOf(str[i]);
-            let newPosition = (position+1) % reference.length;
-            solution += reference[newPosition];
-        }
-        return solution;
+function shift(str) {
+  return str.replace(/[A-Za-z0-9]/g, ch => {
+    const code = ch.charCodeAt(0);
+    if (code >= 65 && code <= 90) {           // A-Z
+      return String.fromCharCode(((code - 65 + 1) % 26) + 65);
     }
+    if (code >= 97 && code <= 122) {          // a-z
+      return String.fromCharCode(((code - 97 + 1) % 26) + 97);
+    }
+    // 0-9
+    return String.fromCharCode(((code - 48 + 1) % 10) + 48);
+  });
 }
+
+console.log(shift("aBc"));   // bCd
+console.log(shift("xyz"));   // yza
+console.log(shift("aK89"));  // bL90
+
 
 // Section B: keyword replaced by hashtag.
 
@@ -51,6 +47,4 @@ function hashtag() {
 // cannot be used to find palindromes that are not specified by length, since these
 // would require and undetermined amount of steps.
 
-const shifter = shiftLetters();
-console.log(shifter("ABD"));
 hashtag();  
